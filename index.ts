@@ -70,26 +70,19 @@ app.post("/auth", (req, res) => {
 
 app.post("/rooms", (req, res) => {
   const {userId} = req.body
-  userCollection
-  .doc(userId.toString())
-  .get()
-  .then((doc) => {
-    if(doc.exists) {
-      rtdb
-      .ref("rooms/" + nanoid())
-      .set({
+  userCollection.doc(userId).get().then(doc => {
+    if(doc.exists){
+      rtdb.ref("/rooms"+nanoid()).set({
         messages: [],
-        owner: userId
-      })
-      .then((rtdbRes) =>{
-         res.json({
-          id: rtdbRes.id,
+        owner:userId
+      }).then(rtdbRes => {
+        res.json({
+          id: rtdbRes.id
         })
       })
     }
   })
 })
-
 
 
 app.get("rooms/:id", (req, res) => {
