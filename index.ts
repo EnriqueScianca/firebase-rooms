@@ -29,13 +29,13 @@ app.post("/signup", (req, res) => {
           .then((newUserRef) => {
             res.json({
               id: newUserRef.id,
-              new: true
+              new: true,
             });
           });
       } else {
         res.status(400).json({
-          message: "User already exists"
-        })
+          message: "User already exists",
+        });
         // console.log("El email ingresado ya se existe en la base de datos!");
       }
     });
@@ -48,7 +48,7 @@ app.post("/signup", (req, res) => {
 app.post("/auth", (req, res) => {
   // La linea siguiente es lo mismo que la que le sigue, solo que para abreviarlo se utiliza el corchete en el nombre de la constante
   // const email = req.body.email
-  const {email} = req.body 
+  const { email } = req.body;
 
   userCollection
     .where("email", "==", email)
@@ -56,41 +56,45 @@ app.post("/auth", (req, res) => {
     .then((searchResponse) => {
       if (searchResponse.empty) {
         res.status(404).json({
-          message: "Not found"
-        })
+          message: "Not found",
+        });
         // console.log("El email ingresado ya se existe en la base de datos!");
-        
       } else {
         res.json({
-          id:searchResponse.docs[0].id
-        })
+          id: searchResponse.docs[0].id,
+        });
       }
     });
-})
+});
 
 app.post("/rooms", (req, res) => {
-  const {userId} = req.body
-  userCollection.doc(userId).get().then(doc => {
-    if(doc.exists){
-      rtdb.ref("/rooms"+nanoid()).set({
-        messages: [],
-        owner:userId
-      }).then(rtdbRes => {
-        res.json({
-          id: rtdbRes.id
-        })
-      })
-    }
-  })
-})
+  const { userId } = req.body;
+  userCollection
+    .doc(userId)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        rtdb
+          .ref("/rooms/" + nanoid())
+          .set({
+            messages: [],
+            owner: userId,
+          })
 
+          // Si le paso por post  un body con el owner: userId de los id que estan en la db me los guarda en la rtdb
+          .then((rtdbRes) => {
+            res.json({
+              id: rtdbRes.id,
+            });
+          });
+      }
+    });
+});
 
 app.get("rooms/:id", (req, res) => {
-  console.log(req.body)
-  res.json(req.body)
-})
-
-
+  console.log(req.body);
+  res.json(req.body);
+});
 
 app.listen(port, () => {
   console.log(`Iniciado en http://localhost:${port}`);
