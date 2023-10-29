@@ -68,25 +68,26 @@ app.post("/auth", (req, res) => {
 });
 
 app.post("/rooms", (req, res) => {
-  const { userId } = req.body;
+  // const { userId } = req.body;
+  const userId = req.body.id;
+
+  console.log("Soy el userId", userId);
   userCollection
-    .doc(userId)
+    .doc(userId.toString())
     .get()
     .then((doc) => {
       if (doc.exists) {
-        rtdb
-          .ref("/rooms/" + nanoid())
-          .set({
-            messages: [],
-            owner: userId,
-          })
-
-          // Si le paso por post  un body con el owner: userId de los id que estan en la db me los guarda en la rtdb
-          .then((rtdbRes) => {
-            res.json({
-              id: rtdbRes.id,
-            });
-          });
+        rtdb.ref("rooms/" + nanoid()).set({
+          message: [],
+          owner: userId,
+        });
+        res.json({
+          message: "Usuario con id: " + userId,
+        });
+      } else {
+        res.status(401).json({
+          message: "no existis",
+        });
       }
     });
 });
