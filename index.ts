@@ -86,7 +86,7 @@ app.post("/rooms", (req, res) => {
         });
       } else {
         res.status(401).json({
-          message: "no existis",
+          message: "No existís",
         });
       }
     });
