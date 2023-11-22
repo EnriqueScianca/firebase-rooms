@@ -68,8 +68,8 @@ app.post("/auth", (req, res) => {
 });
 
 app.post("/rooms", (req, res) => {
-  // const { userId } = req.body;
-  const userId = req.body.id;
+  const { userId } = req.body;
+  // const userId = req.body.userId;
 
   console.log("Soy el userId", userId);
   userCollection
@@ -93,7 +93,7 @@ app.post("/rooms", (req, res) => {
 });
 
 app.get("rooms/:id", (req, res) => {
-  console.log(req.body);
+  console.log("Soy el req.body del rooms/:id", req.body);
   res.json(req.body);
 });
 
