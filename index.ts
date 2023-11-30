@@ -68,42 +68,6 @@ app.post("/auth", (req, res) => {
     });
 });
 
-// app.post("/rooms", (req, res) => {
-//   const { userId } = req.body;
-//   // const userId = req.body.userId;
-
-//   console.log("Soy el userId", userId);
-//   userCollection
-//     .doc(userId.toString())
-//     .get()
-//     .then((doc) => {
-//       if (doc.exists) {
-//         rtdb.ref("rooms/" + nanoid()).set({
-//           message: [],
-//           owner: userId,
-//         });
-//         const roomId = 1000 + Math.floor(Math.random() * 999);
-//         roomsCollection
-//           .doc(roomId.toString())
-//           .set({
-//             rtdbRoomId: userId,
-//           })
-//           .then(() => {
-//             res.json({
-//               id: roomId.toString(),
-//             });
-//           });
-//         res.json({
-//           message: "Usuario con id: " + userId,
-//         });
-//       } else {
-//         res.status(401).json({
-//           message: "No existís",
-//         });
-//       }
-//     });
-// });
-
 app.post("/rooms", (req, res) => {
   const { userId } = req.body;
   userCollection
