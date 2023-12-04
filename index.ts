@@ -37,18 +37,12 @@ app.post("/signup", (req, res) => {
         res.status(400).json({
           message: "User already exists",
         });
-        // console.log("El email ingresado ya se existe en la base de datos!");
       }
     });
-  // userCollection.doc("1234");
-  // console.log(req.body);
-  // res.json(req.body);
 });
 
 // authentication
 app.post("/auth", (req, res) => {
-  // La linea siguiente es lo mismo que la que le sigue, solo que para abreviarlo se utiliza el corchete en el nombre de la constante
-  // const email = req.body.email
   const { email } = req.body;
 
   userCollection
@@ -59,7 +53,6 @@ app.post("/auth", (req, res) => {
         res.status(404).json({
           message: "Not found",
         });
-        // console.log("El email ingresado ya se existe en la base de datos!");
       } else {
         res.json({
           id: searchResponse.docs[0].id,
